@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 
 type FadeInProps = {
   children: ReactNode;
@@ -8,27 +14,54 @@ type FadeInProps = {
   delay?: number;
 };
 
+function isInViewport(el: HTMLElement) {
+  const rect = el.getBoundingClientRect();
+  return rect.bottom > 0 && rect.top < window.innerHeight;
+}
+
 export function FadeIn({ children, className = "", delay = 0 }: FadeInProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setVisible(true);
+      return;
+    }
+
+    if (isInViewport(el)) {
+      setVisible(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || visible) return;
+
+    const reveal = () => setVisible(true);
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setVisible(true);
+          reveal();
           observer.disconnect();
         }
       },
-      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
+      { threshold: 0.01, rootMargin: "0px 0px 0px 0px" },
     );
 
     observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+
+    const fallback = window.setTimeout(reveal, 1000);
+
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(fallback);
+    };
+  }, [visible]);
 
   return (
     <div
@@ -36,7 +69,7 @@ export function FadeIn({ children, className = "", delay = 0 }: FadeInProps) {
       className={`transition-opacity duration-700 ease-out ${
         visible ? "opacity-100" : "opacity-0"
       } ${className}`}
-      style={{ transitionDelay: `${delay}ms` }}
+      style={{ transitionDelay: visible ? `${delay}ms` : undefined }}
     >
       {children}
     </div>

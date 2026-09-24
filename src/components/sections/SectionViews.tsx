@@ -19,6 +19,7 @@ import {
   process,
   site,
   slideByPage,
+  slidesUsageDescription,
 } from "@/data/content";
 
 export function ChallengeSection() {
@@ -304,15 +305,13 @@ export function SlidesSection() {
   return (
     <section className="site-section bg-[var(--surface)]">
       <div className="site-container">
-        <FadeIn>
-          <SectionHeading
-            id="slides-heading"
-            eyebrow="เอกสารต้นฉบับ"
-            title="สไลด์นำเสนอ (PA 69)"
-            description="เรียงตามชื่อไฟล์ 01.jpg = หน้า 1 · คลิกเพื่อขยายและเลื่อนด้วยลูกศร"
-          />
-          <SlideGallery />
-        </FadeIn>
+        <SectionHeading
+          id="slides-heading"
+          eyebrow="เอกสารต้นฉบับ"
+          title="สไลด์นำเสนอ (PA 69)"
+          description={slidesUsageDescription}
+        />
+        <SlideGallery />
       </div>
     </section>
   );

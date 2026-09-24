@@ -51,23 +51,35 @@ export function SiteHeader() {
   useEffect(() => {
     if (!dropdownOpen) return;
 
-    const onPointerDown = (e: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target as Node)
-      ) {
-        setDropdownOpen(false);
-      }
+    const onDocumentClick = (e: MouseEvent) => {
+      const el = dropdownRef.current;
+      if (!el || el.contains(e.target as Node)) return;
+      setDropdownOpen(false);
     };
 
-    document.addEventListener("pointerdown", onPointerDown);
-    return () => document.removeEventListener("pointerdown", onPointerDown);
+    const timer = window.setTimeout(() => {
+      document.addEventListener("click", onDocumentClick);
+    }, 0);
+
+    return () => {
+      window.clearTimeout(timer);
+      document.removeEventListener("click", onDocumentClick);
+    };
+  }, [dropdownOpen]);
+
+  useEffect(() => {
+    if (!dropdownOpen) return;
+    const onEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setDropdownOpen(false);
+    };
+    window.addEventListener("keydown", onEscape);
+    return () => window.removeEventListener("keydown", onEscape);
   }, [dropdownOpen]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--surface)]/95 backdrop-blur-md">
+    <header className="sticky top-0 z-[100] overflow-visible border-b border-[var(--border)] bg-[var(--surface)]/95 backdrop-blur-md">
       <div className="site-container flex items-center justify-between gap-4 py-3">
-        <Link href="/" className="min-w-0 shrink">
+        <Link href="/" className="relative z-0 min-w-0 shrink">
           <p className="truncate text-xs font-medium uppercase tracking-wider text-[var(--accent-gold)]">
             {site.collegeEn}
           </p>
@@ -77,7 +89,7 @@ export function SiteHeader() {
         </Link>
 
         <nav
-          className="hidden items-center gap-0.5 lg:flex"
+          className="relative z-10 hidden shrink-0 items-center gap-0.5 lg:flex"
           aria-label="เมนูหลัก"
         >
           <Link
@@ -98,7 +110,10 @@ export function SiteHeader() {
               aria-expanded={dropdownOpen}
               aria-haspopup="menu"
               aria-controls="presentation-nav-menu"
-              onClick={() => setDropdownOpen((v) => !v)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setDropdownOpen((v) => !v);
+              }}
             >
               {navPresentationMenuLabel}
               <IconChevronDown
@@ -111,7 +126,7 @@ export function SiteHeader() {
               <ul
                 id="presentation-nav-menu"
                 role="menu"
-                className="absolute left-0 top-full z-50 mt-1 min-w-[15.5rem] rounded-lg border border-[var(--border)] bg-[var(--surface)] py-1.5 shadow-lg"
+                className="absolute left-0 top-full z-[110] mt-1 min-w-[15.5rem] rounded-lg border border-[var(--border)] bg-[var(--surface)] py-1.5 shadow-lg"
               >
                 {navPresentation.map((item) => {
                   const active = isActive(pathname, item.href);
@@ -146,7 +161,7 @@ export function SiteHeader() {
 
         <button
           type="button"
-          className="inline-flex items-center gap-2 rounded-md border border-[var(--border)] px-4 py-2.5 text-base font-medium text-[var(--primary)] lg:hidden"
+          className="relative z-10 inline-flex shrink-0 items-center gap-2 rounded-md border border-[var(--border)] px-4 py-2.5 text-base font-medium text-[var(--primary)] lg:hidden"
           aria-expanded={mobileOpen}
           aria-controls="mobile-nav"
           onClick={() => setMobileOpen((v) => !v)}
@@ -162,7 +177,7 @@ export function SiteHeader() {
       {mobileOpen && (
         <nav
           id="mobile-nav"
-          className="border-t border-[var(--border)] bg-[var(--surface)] lg:hidden"
+          className="relative z-10 border-t border-[var(--border)] bg-[var(--surface)] lg:hidden"
         >
           <ul className="site-container flex flex-col gap-1 py-4">
             <li>
@@ -180,7 +195,10 @@ export function SiteHeader() {
                 type="button"
                 className="flex w-full items-center justify-between rounded-md px-3 py-2.5 text-left text-sm font-semibold uppercase tracking-wide text-[var(--accent-gold)]"
                 aria-expanded={mobilePresentationOpen}
-                onClick={() => setMobilePresentationOpen((v) => !v)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setMobilePresentationOpen((v) => !v);
+                }}
               >
                 {navPresentationMenuLabel}
                 <IconChevronDown

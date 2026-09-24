@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { challenge, site, slideByPage } from "@/data/content";
+import { heroCover, site, slideByPage } from "@/data/content";
 import { PosterFrame } from "./PosterFrame";
 
 export function HeroSection() {
+  const slide01 = slideByPage(1)!;
+
   return (
     <section className="hero-pattern relative overflow-hidden border-b border-[var(--primary-dark)] text-white">
       <div className="pointer-events-none absolute -left-20 top-20 h-64 w-64 rounded-full bg-cyan-400/20 blur-3xl animate-float" />
@@ -18,24 +20,29 @@ export function HeroSection() {
               {site.presenter.document} · {site.college}
             </p>
             <h1 className="mt-4 text-[2rem] font-bold leading-tight md:text-[2.5rem] lg:text-[2.75rem]">
-              {site.challengeTopic}
+              {heroCover.title}
               <span className="mt-2 block text-xl font-semibold text-white/95 md:text-[1.35rem]">
-                {site.title}
+                {heroCover.subtitle}
               </span>
             </h1>
             <p className="mt-3 text-[1.5rem] font-bold text-[var(--accent-gold)] md:text-[1.75rem]">
-              {site.subtitle}
+              {site.slogan}
             </p>
             <p className="mt-6 max-w-xl text-[1.05rem] leading-relaxed text-white/90 md:text-[1.125rem]">
-              {challenge.purpose}
+              {heroCover.summary}
             </p>
-            <p className="mt-4 text-[0.95rem] text-white/75">{site.course}</p>
+            <p className="mt-4 text-[0.95rem] text-white/75">
+              {site.presenter.name} · {site.presenter.title}
+            </p>
+            <p className="mt-2 text-[0.9rem] italic text-white/65">
+              {heroCover.kvcQuote}
+            </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
-                href="/model"
+                href="/challenge"
                 className="rounded-md bg-[var(--accent-gold)] px-5 py-2.5 text-[0.95rem] font-semibold text-[var(--primary-dark)] transition hover:brightness-110"
               >
-                ดูแนวคิด KVC-STEM PBL
+                ดูเนื้อหานำเสนอ
               </Link>
               <Link
                 href="/slides"
@@ -51,8 +58,8 @@ export function HeroSection() {
             style={{ animationDelay: "200ms" }}
           >
             <PosterFrame
-              src={slideByPage(2)!.src}
-              alt={`${site.challengeTopic} — ${site.subtitle}`}
+              src={slide01.src}
+              alt={slide01.title}
               title={site.presenter.title}
               caption={`${site.presenter.name} · ${site.presenter.org}`}
               priority

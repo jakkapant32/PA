@@ -18,6 +18,16 @@ export const site = {
   challengeTopic: "ประเด็นความท้าทาย",
 };
 
+/** ข้อความหน้าแรกให้สอดคล้องสไลด์ 01 — เอกสารนำเสนอ PA */
+export const heroCover = {
+  title: "เอกสารนำเสนอ PA",
+  subtitle: "เพื่อพัฒนาสมรรถนะการเป็นครูมืออาชีพ",
+  summary:
+    "กรอบการปฏิบัติหน้าที่ครู 3 ด้าน — การจัดการเรียนรู้ · การส่งเสริมและสนับสนุนการจัดการเรียนรู้ · การพัฒนาตนเอง — เพื่อยกระดับคุณภาพการศึกษาและความเป็นเลิศทางวิชาชีพ",
+  kvcQuote:
+    "KVC — สร้างผู้เรียนให้คิดเป็น ทำเป็น และพร้อมสู่อาชีพอย่างยั่งยืน",
+};
+
 export type NavItem = { href: string; label: string };
 
 export const navPrimary: NavItem[] = [
@@ -134,6 +144,9 @@ export const presentationSlides = [
 export function slideByPage(page: number) {
   return presentationSlides.find((s) => s.page === page);
 }
+
+export const slidesUsageDescription =
+  "คลิกที่การ์ดสไลด์เพื่อดูแบบเต็มจอ ใช้ปุ่ม «ก่อนหน้า / ถัดไป» หรือลูกศร ← → บนคีย์บอร์ดเพื่อเลื่อนหน้า กด Esc หรือคลิกพื้นหลังเพื่อปิด";
 
 export const problems = {
   intro:
