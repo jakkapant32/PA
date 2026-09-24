@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { challenge, site } from "@/data/content";
+import { challenge, site, slideByPage } from "@/data/content";
 import { PosterFrame } from "./PosterFrame";
 
 export function HeroSection() {
@@ -51,7 +51,7 @@ export function HeroSection() {
             style={{ animationDelay: "200ms" }}
           >
             <PosterFrame
-              src="/images/hero.jpg"
+              src={slideByPage(2)!.src}
               alt={`${site.challengeTopic} — ${site.subtitle}`}
               title={site.presenter.title}
               caption={`${site.presenter.name} · ${site.presenter.org}`}

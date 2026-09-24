@@ -18,6 +18,7 @@ import {
   problems,
   process,
   site,
+  slideByPage,
 } from "@/data/content";
 
 export function ChallengeSection() {
@@ -55,18 +56,10 @@ export function ProblemsSection() {
             description={`${site.course} · ${problems.intro}`}
           />
         </FadeIn>
-        <FadeIn delay={100}>
-          <div className="mt-10 grid gap-10 xl:grid-cols-2 xl:items-start">
-            <PosterFrame
-              src="/images/problems.jpg"
-              alt="ปัญหาที่พบจากการจัดการเรียนรู้"
-              title="สไลด์ปัญหาที่พบ (HD)"
-              caption="คลิกเพื่อขยายเต็มจอ"
-            />
-            <div className="mt-8 xl:mt-0">
-              <ProblemAccordion />
-            </div>
-          </div>
+            <FadeIn delay={100}>
+              <div className="mt-10">
+                <ProblemAccordion />
+              </div>
           <blockquote className="card mt-8 border-l-4 border-[var(--accent-gold)] bg-[var(--background)] p-6 text-base leading-relaxed">
             {problems.summary}
           </blockquote>
@@ -102,11 +95,18 @@ export function ModelSection() {
               </article>
             ))}
           </div>
-          <PillarTabs />
-        </FadeIn>
-      </div>
-    </section>
-  );
+              <div className="mt-10">
+                <PosterFrame
+                  src={slideByPage(3)!.src}
+                  alt={slideByPage(3)!.title}
+                  title={`สไลด์ ${String(3).padStart(2, "0")} · ${slideByPage(3)!.title}`}
+                />
+              </div>
+              <PillarTabs />
+            </FadeIn>
+          </div>
+        </section>
+      );
 }
 
 export function ProcessSection() {
@@ -121,12 +121,12 @@ export function ProcessSection() {
             description={process.unit}
           />
           <div className="mt-10">
-            <PosterFrame
-              src="/images/process.jpg"
-              alt="ขั้นตอน KVC-STEM PBL Model"
-              title="แผนภาพขั้นตอนการเรียนรู้ (HD)"
-              caption="Connect · Explore · Analyze · Design · Create · Improve · Communicate"
-            />
+                <PosterFrame
+                  src={slideByPage(4)!.src}
+                  alt={slideByPage(4)!.title}
+                  title={`สไลด์ ${String(4).padStart(2, "0")} · ${slideByPage(4)!.title}`}
+                  caption={slideByPage(4)!.caption}
+                />
           </div>
           <ProcessTimeline />
           <div className="mt-8 grid gap-5 md:grid-cols-2">
@@ -167,11 +167,11 @@ export function OutcomesSection() {
             title="ผลลัพธ์ที่เกิดกับนักเรียน / นักศึกษา"
           />
           <div className="mt-10">
-            <PosterFrame
-              src="/images/outcomes.jpg"
-              alt="ผลลัพธ์ที่เกิดกับนักศึกษา"
-              title="สไลด์ผลลัพธ์ (HD)"
-            />
+                <PosterFrame
+                  src={slideByPage(5)!.src}
+                  alt={slideByPage(5)!.title}
+                  title={`สไลด์ ${String(5).padStart(2, "0")} · ${slideByPage(5)!.title}`}
+                />
           </div>
           <div className="mt-8 grid gap-5 md:grid-cols-2">
             {outcomes.pillars.map((p) => (
@@ -231,11 +231,11 @@ export function AssessmentSection() {
             “{assessment.quote}”
           </p>
           <div className="mt-10">
-            <PosterFrame
-              src="/images/assessment.jpg"
-              alt="การวัดและการประเมินผล"
-              title="สไลด์การประเมินผล (HD)"
-            />
+                <PosterFrame
+                  src={slideByPage(6)!.src}
+                  alt={slideByPage(6)!.title}
+                  title={`สไลด์ ${String(6).padStart(2, "0")} · ${slideByPage(6)!.title}`}
+                />
           </div>
           <AssessmentExplorer />
         </FadeIn>
@@ -255,8 +255,20 @@ export function PortfolioSection() {
             title="ตัวอย่างผลงานจาก KVC-STEM PBL"
             description={portfolio.intro}
           />
-          <PortfolioCards />
-          <div className="mt-8 grid gap-5 lg:grid-cols-2">
+            <PortfolioCards />
+            <div className="mt-10 grid gap-6 lg:grid-cols-2">
+              <PosterFrame
+                src={slideByPage(7)!.src}
+                alt={slideByPage(7)!.title}
+                title={`สไลด์ ${String(7).padStart(2, "0")} · ${slideByPage(7)!.title}`}
+              />
+              <PosterFrame
+                src={slideByPage(8)!.src}
+                alt={slideByPage(8)!.title}
+                title={`สไลด์ ${String(8).padStart(2, "0")} · ${slideByPage(8)!.title}`}
+              />
+            </div>
+            <div className="mt-8 grid gap-5 lg:grid-cols-2">
             <div className="card p-6">
               <h3 className="font-bold text-[var(--primary)]">
                 กระบวนการทำงานของนักศึกษา
@@ -297,7 +309,7 @@ export function SlidesSection() {
             id="slides-heading"
             eyebrow="เอกสารต้นฉบับ"
             title="สไลด์นำเสนอ (PA 69)"
-            description="ภาพ HD จากโฟลเดอร์ 1image — คลิกเพื่อขยายเต็มจอ"
+            description="เรียงตามชื่อไฟล์ 01.jpg = หน้า 1 · คลิกเพื่อขยายและเลื่อนด้วยลูกศร"
           />
           <SlideGallery />
         </FadeIn>

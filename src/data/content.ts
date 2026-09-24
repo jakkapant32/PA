@@ -18,8 +18,15 @@ export const site = {
   challengeTopic: "ประเด็นความท้าทาย",
 };
 
-export const nav = [
+export type NavItem = { href: string; label: string };
+
+export const navPrimary: NavItem[] = [
   { href: "/", label: "หน้าแรก" },
+  { href: "/slides", label: "สไลด์นำเสนอ" },
+];
+
+/** รายการในเมนูดรอปดาว «เนื้อหานำเสนอ» */
+export const navPresentation: NavItem[] = [
   { href: "/challenge", label: "ประเด็นท้าทาย" },
   { href: "/problems", label: "ปัญหาที่พบ" },
   { href: "/model", label: "แนวคิด KVC-STEM PBL" },
@@ -27,7 +34,15 @@ export const nav = [
   { href: "/outcomes", label: "ผลลัพธ์" },
   { href: "/assessment", label: "การวัดและประเมินผล" },
   { href: "/portfolio", label: "ผลงานนักศึกษา" },
-  { href: "/slides", label: "สไลด์นำเสนอ" },
+];
+
+export const navPresentationMenuLabel = "เนื้อหานำเสนอ";
+
+/** ลำดับเต็มทุกหน้า */
+export const nav: NavItem[] = [
+  navPrimary[0],
+  ...navPresentation,
+  navPrimary[1],
 ];
 
 export const challenge = {
@@ -58,34 +73,67 @@ export const challenge = {
   ],
 };
 
-/** ภาพความละเอียดสูงจากโฟลเดอร์ 1image */
-export const hdPosters = [
+/** สไลด์ 9 หน้า เรียงตามชื่อไฟล์ 01–09 ในโฟลเดอร์ 1image */
+export const presentationSlides = [
   {
-    src: "/images/hero.jpg",
+    page: 1,
+    src: "/slides/01.jpg",
+    title: "เอกสารนำเสนอ PA",
+    caption: "กรอบการจัดการเรียนรู้ · ส่งเสริม · พัฒนาตนเอง",
+  },
+  {
+    page: 2,
+    src: "/slides/02.jpg",
     title: "ประเด็นความท้าทาย KVC-STEM PBL",
-    caption: "สไลด์หลัก · ความท้าทายและเป้าหมาย",
+    caption: "การคิดค้นและปรับเปลี่ยนรูปแบบการจัดการเรียนรู้",
   },
   {
-    src: "/images/problems.jpg",
-    title: "ปัญหาที่พบ",
-    caption: "วิเคราะห์สถานการณ์การจัดการเรียนรู้",
+    page: 3,
+    src: "/slides/03.jpg",
+    title: "ความเป็นมา / KVC-STEM PBL Model",
+    caption: "หลักการ เหตุผล และองค์ประกอบ K · V · C · PBL",
   },
   {
-    src: "/images/process.jpg",
-    title: "ขั้นตอน KVC-STEM PBL",
+    page: 4,
+    src: "/slides/04.jpg",
+    title: "ขั้นตอนการจัดการเรียนรู้",
     caption: "Connect → Communicate (7 ขั้น)",
   },
   {
-    src: "/images/outcomes.jpg",
+    page: 5,
+    src: "/slides/05.jpg",
     title: "ผลลัพธ์ที่เกิดกับนักศึกษา",
     caption: "4 ด้านและหลักฐานเชิงประจักษ์",
   },
   {
-    src: "/images/assessment.jpg",
+    page: 6,
+    src: "/slides/06.jpg",
     title: "การวัดและการประเมินผล",
     caption: "กรอบประเมิน 9 ด้าน",
   },
-];
+  {
+    page: 7,
+    src: "/slides/07.png",
+    title: "ผลงานนักศึกษา KVC-STEM PBL",
+    caption: "ตัวอย่างผลิตภัณฑ์และกระบวนการเรียนรู้",
+  },
+  {
+    page: 8,
+    src: "/slides/08.jpg",
+    title: "การนำเสนอผลงานนักศึกษา",
+    caption: "นวัตกรรมจากความรู้ สู่การใช้จริง",
+  },
+  {
+    page: 9,
+    src: "/slides/09.jpg",
+    title: "สรุปประเด็นความท้าทาย",
+    caption: "KVC-STEM PBL · STEM · PBL",
+  },
+] as const;
+
+export function slideByPage(page: number) {
+  return presentationSlides.find((s) => s.page === page);
+}
 
 export const problems = {
   intro:
@@ -403,28 +451,15 @@ export const portfolio = {
     "ผลลัพธ์ที่ดีที่สุด คือ ผู้เรียนที่เติบโต… ทั้งความรู้ ทักษะ และคุณลักษณะอาชีพ — เป็นนักคิด นักปฏิบัติ สู่มืออาชีพ",
 };
 
-export const slides = Array.from({ length: 9 }, (_, i) => ({
-  src: `/slides/page-${String(i + 1).padStart(2, "0")}.png`,
-  alt: `สไลด์นำเสนอ หน้า ${i + 1}`,
-  caption: `หน้า ${i + 1} / 9`,
-}));
-
 export type GalleryImage = {
   src: string;
   alt: string;
   label?: string;
 };
 
-/** ลำดับภาพสำหรับ Lightbox (HD 5 รูป + PDF 9 หน้า) */
-export const galleryImages: GalleryImage[] = [
-  ...hdPosters.map((p) => ({
-    src: p.src,
-    alt: p.title,
-    label: p.caption,
-  })),
-  ...slides.map((s) => ({
-    src: s.src,
-    alt: s.alt,
-    label: s.caption,
-  })),
-];
+/** ลำดับภาพสำหรับ Lightbox ตามเลขหน้า 01–09 */
+export const galleryImages: GalleryImage[] = presentationSlides.map((s) => ({
+  src: s.src,
+  alt: s.title,
+  label: `หน้า ${s.page} / 9 · ${s.caption}`,
+}));
